@@ -146,7 +146,7 @@ public class ToDoItemInputSingleton extends Stage {
         dialogForm.setVgap(20);
         dialogForm.setPadding(new Insets(15, 15, 15, 15));
         this.setWidth(320);
-        this.setHeight(310);
+        this.setHeight(311);
            
         // AND PUT IT IN THE WINDOW
         Scene formScene = new Scene(dialogForm);
