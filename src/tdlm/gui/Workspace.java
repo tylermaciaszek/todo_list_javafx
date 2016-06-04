@@ -2,6 +2,8 @@ package tdlm.gui;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ColorPicker;
@@ -224,7 +226,11 @@ public class Workspace extends AppWorkspaceComponent {
 	
 	// NOW CONNECT THE BUTTONS TO THEIR HANDLERS
         addItemButton.setOnAction(e->{
-            toDoListController.processAddItem();
+            try {
+                toDoListController.processAddItem();
+            } catch (Exception ex) {
+                Logger.getLogger(Workspace.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         removeItemButton.setOnAction(e->{
             toDoListController.processRemoveItem();
@@ -278,6 +284,12 @@ public class Workspace extends AppWorkspaceComponent {
         itemsBox.getStyleClass().add(CLASS_BORDERED_PANE);
         itemsLabel.getStyleClass().add(CLASS_SUBHEADING_LABEL);
     }
+
+    public TableView<ToDoItem> getItemsTable() {
+        return itemsTable;
+    }
+    
+    
 
     /**
      * This function reloads all the controls for editing tag attributes into

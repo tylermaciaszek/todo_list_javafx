@@ -14,6 +14,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
+import tdlm.controller.ToDoListController;
 import tdlm.data.ToDoItem;
 
 
@@ -44,6 +45,8 @@ public class ToDoItemInputSingleton extends Stage {
     RadioButton rbYes;
     RadioButton rbNo;
     HBox buttonHolder;
+    
+    boolean complete;
     
     //Data Component
     ToDoItem data;
@@ -154,13 +157,20 @@ public class ToDoItemInputSingleton extends Stage {
         
         //Make submit do something
         submit.setOnAction(e -> {
+            data = new ToDoItem();
+            data.setCategory(categoryInput.getText());
+            data.setDescription(descriptionInput.getText());
+            data.setStartDate(initialDate.getValue());
+            data.setEndDate(endDate.getValue());
+            complete = completedButtons.getSelectedToggle().equals(rbYes);
+            data.setCompleted(complete);
             this.hide();
         });
         
     }
     
     public ToDoItem getItem(){
-        return data;
+        return this.data;
     }
  
     /**

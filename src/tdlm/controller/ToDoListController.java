@@ -34,16 +34,18 @@ public class ToDoListController {
 	app = initApp;
     }
         
-    public void processAddItem() {	
+    public void processAddItem() throws Exception {	
 	// ENABLE/DISABLE THE PROPER BUTTONS
 	Workspace workspace = (Workspace)app.getWorkspaceComponent();
 	workspace.reloadWorkspace(); 
         ToDoItemInputSingleton dialogForm = ToDoItemInputSingleton.getSingleton();
         dialogForm.init(app.getGUI().getWindow());
-	dialogForm.show("test");
-        DataManager dataManager = (DataManager)app.getDataComponent();
-        //dataManager.addItem(dialogForm.getItem());
-        //System.out.print(dataManager.getItems());
+	dialogForm.show("Add New Item");
+        DataManager dataManager = (DataManager) app.getDataComponent();
+        ToDoItem data = dialogForm.getItem();
+        dataManager.addItem(data);
+        workspace.getItemsTable().setItems(dataManager.getItems());
+
         
         
     }
