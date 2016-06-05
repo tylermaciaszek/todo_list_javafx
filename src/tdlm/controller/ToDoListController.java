@@ -44,13 +44,11 @@ public class ToDoListController {
         DataManager dataManager = (DataManager) app.getDataComponent();
         ToDoItem data = dialogForm.getItem();
         dataManager.addItem(data);
-        workspace.getItemsTable().setItems(dataManager.getItems());
-
-        
-        
+        workspace.getItemsTable().setItems(dataManager.getItems()); 
     }
     
     public void processRemoveItem() {
+        
         
     }
     

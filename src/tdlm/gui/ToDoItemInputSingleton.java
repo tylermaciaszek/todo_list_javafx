@@ -92,13 +92,10 @@ public class ToDoItemInputSingleton extends Stage {
      * @param owner The window above which this dialog will be centered.
      */
     public void init(Stage owner) {
-        // MAKE IT MODAL
-        if(singleton != null){
-            
-        }else{
+        singleton = null;
         initModality(Modality.WINDOW_MODAL);
         initOwner(owner);
-        }
+        
         
         // LABEL TO DISPLAY THE CUSTOM MESSAGE
         category = new Label("Category");

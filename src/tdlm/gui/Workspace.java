@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import tdlm.controller.ToDoListController;
 import tdlm.data.DataManager;
 import saf.ui.AppYesNoCancelDialogSingleton;
@@ -204,6 +205,8 @@ public class Workspace extends AppWorkspaceComponent {
         workspace.getChildren().add(headingLabel);
         workspace.getChildren().add(detailsBox);
         workspace.getChildren().add(itemsBox);
+        
+   
     }
         
     //Set up dialogForm
