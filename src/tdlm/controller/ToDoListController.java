@@ -7,6 +7,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.TablePosition;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -44,11 +45,17 @@ public class ToDoListController {
         DataManager dataManager = (DataManager) app.getDataComponent();
         ToDoItem data = dialogForm.getItem();
         dataManager.addItem(data);
-        workspace.getItemsTable().setItems(dataManager.getItems()); 
+        workspace.getItemsTable().setItems(dataManager.getItems());
+        workspace.getRemoveItemButton().setDisable(false);
     }
     
     public void processRemoveItem() {
-        
+        Workspace workspace = (Workspace)app.getWorkspaceComponent();
+	workspace.reloadWorkspace(); 
+        TablePosition focusedCell = workspace.getItemsTable().getFocusModel().getFocusedCell();
+        workspace.getItemsTable().getItems().remove(focusedCell.getRow());
+        if(workspace.getItemsTable().getItems().isEmpty())
+            workspace.getRemoveItemButton().setDisable(true);
         
     }
     

@@ -206,14 +206,29 @@ public class Workspace extends AppWorkspaceComponent {
         workspace.getChildren().add(detailsBox);
         workspace.getChildren().add(itemsBox);
         
+        //Accesor Methods for buttons
+        
+        
    
     }
         
     //Set up dialogForm
-    
-    
-    
-    //Show the dialogForm
+
+    public Button getAddItemButton() {
+        return addItemButton;
+    }
+
+    public Button getRemoveItemButton() {
+        return removeItemButton;
+    }
+
+    public Button getMoveUpItemButton() {
+        return moveUpItemButton;
+    }
+
+    public Button getMoveDownItemButton() {
+        return moveDownItemButton;
+    }
    
     
         
