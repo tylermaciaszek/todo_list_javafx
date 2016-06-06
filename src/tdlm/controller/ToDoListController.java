@@ -46,17 +46,13 @@ public class ToDoListController {
         ToDoItem data = dialogForm.getItem();
         dataManager.addItem(data);
         workspace.getItemsTable().setItems(dataManager.getItems());
-        workspace.getRemoveItemButton().setDisable(false);
     }
     
     public void processRemoveItem() {
         Workspace workspace = (Workspace)app.getWorkspaceComponent();
 	workspace.reloadWorkspace(); 
-        TablePosition focusedCell = workspace.getItemsTable().getFocusModel().getFocusedCell();
-        workspace.getItemsTable().getItems().remove(focusedCell.getRow());
-        if(workspace.getItemsTable().getItems().isEmpty())
-            workspace.getRemoveItemButton().setDisable(true);
-        
+        workspace.getItemsTable().getItems().remove(workspace.getItemsTable().getSelectionModel().getSelectedIndex());
+        buttonDisable();
     }
     
     public void processMoveUpItem() {
@@ -70,5 +66,13 @@ public class ToDoListController {
     public void processEditItem() {
         
     }
-   
+    
+    public void buttonDisable(){
+        Workspace workspace = (Workspace)app.getWorkspaceComponent();
+	workspace.reloadWorkspace(); 
+        workspace.getItemsTable().getSelectionModel().clearSelection();
+        workspace.getMoveDownItemButton().setDisable(true);
+        workspace.getMoveUpItemButton().setDisable(true);
+        workspace.getRemoveItemButton().setDisable(true);
+    } 
 }
