@@ -107,8 +107,6 @@ public class Workspace extends AppWorkspaceComponent {
     LocalDate endInput;
     boolean completedInput;
     
-    boolean checkForClicks;
-
     
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -201,9 +199,7 @@ public class Workspace extends AppWorkspaceComponent {
         itemsTable.getColumns().add(itemCompletedColumn);
         DataManager dataManager = (DataManager)app.getDataComponent();
         itemsTable.setItems(dataManager.getItems());
-        
-        
-        
+       
         //Items Table Listener
         itemsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->{
             removeItemButton.setDisable(false);
@@ -211,7 +207,14 @@ public class Workspace extends AppWorkspaceComponent {
                 moveUpItemButton.setDisable(false);
                 moveDownItemButton.setDisable(false);
             }
-         
+            if(newSelection != null){
+                if(newSelection.equals(itemsTable.getItems().get(0))){
+                    moveUpItemButton.setDisable(true);
+                }
+                if(newSelection.equals(itemsTable.getItems().get(itemsTable.getItems().size()-1))){
+                    moveDownItemButton.setDisable(true);
+                }
+            }
         });
 
         // AND NOW SETUP THE WORKSPACE
@@ -219,8 +222,7 @@ public class Workspace extends AppWorkspaceComponent {
         workspace.getChildren().add(headingLabel);
         workspace.getChildren().add(detailsBox);
         workspace.getChildren().add(itemsBox);
-        
-        //Accesor Methods for buttons
+       
         
         
    
@@ -243,13 +245,6 @@ public class Workspace extends AppWorkspaceComponent {
     public Button getMoveDownItemButton() {
         return moveDownItemButton;
     }
-    
-    //getter for boolean value to use later
-
-    public boolean isCheckForClicks() {
-        return checkForClicks;
-    }
-    
     
     public void setDebugText(String text) {
 	debugText.setText(text);

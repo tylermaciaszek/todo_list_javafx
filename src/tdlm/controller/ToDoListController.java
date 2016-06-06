@@ -56,11 +56,30 @@ public class ToDoListController {
     }
     
     public void processMoveUpItem() {
-        
+        Workspace workspace = (Workspace)app.getWorkspaceComponent();
+	workspace.reloadWorkspace(); 
+        int selectedIndex = workspace.getItemsTable().getSelectionModel().getSelectedIndex();
+        ToDoItem oldItem = workspace.getItemsTable().getItems().get((selectedIndex-1));
+        ToDoItem selectedItem = workspace.getItemsTable().getSelectionModel().getSelectedItem();
+        workspace.getItemsTable().getItems().remove(selectedIndex);
+        workspace.getItemsTable().getItems().remove(selectedIndex-1);
+        workspace.getItemsTable().getItems().add(selectedIndex-1, selectedItem);
+        workspace.getItemsTable().getItems().add(selectedIndex, oldItem);
+        buttonDisable();
     }
     
     public void processMoveDownItem() {
-        
+        Workspace workspace = (Workspace)app.getWorkspaceComponent();
+	workspace.reloadWorkspace(); 
+        int selectedIndex = workspace.getItemsTable().getSelectionModel().getSelectedIndex();
+        int newIndex = workspace.getItemsTable().getSelectionModel().getSelectedIndex()+1;
+        ToDoItem oldItem = workspace.getItemsTable().getItems().get((newIndex));
+        ToDoItem selectedItem = workspace.getItemsTable().getSelectionModel().getSelectedItem();
+        workspace.getItemsTable().getItems().remove(oldItem);
+        workspace.getItemsTable().getItems().remove(selectedItem);
+        workspace.getItemsTable().getItems().add(selectedIndex, oldItem); 
+        workspace.getItemsTable().getItems().add(newIndex, selectedItem);
+        buttonDisable();
     }
     
     public void processEditItem() {
