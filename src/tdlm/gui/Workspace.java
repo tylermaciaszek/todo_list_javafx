@@ -331,4 +331,10 @@ public class Workspace extends AppWorkspaceComponent {
 	DataManager dataManager = (DataManager)app.getDataComponent();
 
     }
+
+    public void setNameAndOwner() {
+        DataManager dataManager = (DataManager)app.getDataComponent();
+        dataManager.setName(nameTextField.getText());
+        dataManager.setOwner(ownerTextField.getText());
+    }
 }

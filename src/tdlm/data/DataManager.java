@@ -1,6 +1,7 @@
 package tdlm.data;
 
 import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,8 +66,16 @@ public class DataManager implements AppDataComponent {
     public void addItem(ToDoItem item) {
         items.add(item);
     }
-
-
+    
+    public void setName(String initName){
+        name = new SimpleStringProperty();
+        name.set(initName);
+    }
+      
+    public void setOwner(String initOwner) {
+        owner = new SimpleStringProperty();
+        owner.set(initOwner);
+    }
 
     /**
      * 
@@ -76,4 +85,5 @@ public class DataManager implements AppDataComponent {
         items = FXCollections.observableArrayList();
 
     }
+
 }
