@@ -76,6 +76,7 @@ public class DataManager implements AppDataComponent {
         owner = new SimpleStringProperty();
         owner.set(initOwner);
     }
+    
 
     /**
      * 

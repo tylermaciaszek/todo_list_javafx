@@ -110,4 +110,5 @@ public class ToDoItem {
         setEndDate(DEFAULT_DATE);
         setCompleted(DEFAULT_COMPLETED);
     }
+
 }

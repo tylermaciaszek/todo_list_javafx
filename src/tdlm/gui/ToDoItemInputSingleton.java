@@ -42,11 +42,14 @@ public class ToDoItemInputSingleton extends Stage {
     DatePicker initialDate;
     DatePicker endDate;
     Button submit;
+    Button cancel;
     RadioButton rbYes;
     RadioButton rbNo;
     HBox buttonHolder;
     
-    boolean complete;
+    //Boolean
+    boolean complete; 
+    Boolean okClicked;
     
     //Data Component
     ToDoItem data;
@@ -65,6 +68,14 @@ public class ToDoItemInputSingleton extends Stage {
 
     public DatePicker getEndDate() {
         return endDate;
+    }
+    
+    public TextField getCategoryInputNode(){
+        return categoryInput;
+    }
+    
+    public TextField getDescriptioInputNode(){
+        return descriptionInput;
     }
     
     /**
@@ -115,6 +126,7 @@ public class ToDoItemInputSingleton extends Stage {
         
         //Button
         submit = new Button("Submit");
+        cancel = new Button("Cancel");
         
         //RadioButtons
         rbYes = new RadioButton("Yes");
@@ -139,7 +151,8 @@ public class ToDoItemInputSingleton extends Stage {
         dialogForm.add(endDate, 1, 3);
         dialogForm.add(completeLabel, 0, 4);
         dialogForm.add(buttonHolder, 1, 4);
-        dialogForm.add(submit, 0, 5, 2, 1);
+        dialogForm.add(submit, 0, 5);
+        dialogForm.add(cancel, 1, 5);
         
         //Style
         dialogForm.setHgap(20);
@@ -152,8 +165,15 @@ public class ToDoItemInputSingleton extends Stage {
         Scene formScene = new Scene(dialogForm);
         this.setScene(formScene);
         
+        //Make cancel do something
+        cancel.setOnAction(e ->{
+            okClicked = false;
+            this.hide();
+        });
+        
         //Make submit do something
         submit.setOnAction(e -> {
+            okClicked = true;
             data = new ToDoItem();
             data.setCategory(categoryInput.getText());
             data.setDescription(descriptionInput.getText());
@@ -168,6 +188,10 @@ public class ToDoItemInputSingleton extends Stage {
     
     public ToDoItem getItem(){
         return this.data;
+    }
+    
+    public boolean getOkClicked(){
+        return okClicked;
     }
  
     /**

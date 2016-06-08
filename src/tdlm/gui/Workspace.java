@@ -10,6 +10,8 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -273,11 +275,18 @@ public class Workspace extends AppWorkspaceComponent {
             toDoListController.processMoveDownItem();
         });
         
-        itemsTable.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
+        itemsTable.setRowFactory(e->{
+            TableRow<ToDoItem> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && !row.isEmpty()) {
                 toDoListController.processEditItem();
             }
         });
+            return row;
+            
+        });
+        
+        
     }
     
     public void setImage(ButtonBase button, String fileName) {

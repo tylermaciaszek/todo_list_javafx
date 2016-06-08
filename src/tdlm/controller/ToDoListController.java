@@ -2,13 +2,15 @@ package tdlm.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -43,9 +45,11 @@ public class ToDoListController {
         dialogForm.init(app.getGUI().getWindow());
 	dialogForm.show("Add New Item");
         DataManager dataManager = (DataManager) app.getDataComponent();
+        if(dialogForm.getOkClicked()){
         ToDoItem data = dialogForm.getItem();
         dataManager.addItem(data);
         workspace.getItemsTable().setItems(dataManager.getItems());
+        }
     }
     
     public void processRemoveItem() {
@@ -83,6 +87,25 @@ public class ToDoListController {
     }
     
     public void processEditItem() {
+        Workspace workspace = (Workspace)app.getWorkspaceComponent();
+	workspace.reloadWorkspace(); 
+        TableView table = workspace.getItemsTable();
+        ToDoItem editItem = (ToDoItem) table.getSelectionModel().getSelectedItem();
+        
+        
+       
+
+        
+        DataManager dataManager = (DataManager) app.getDataComponent();
+        ToDoItemInputSingleton editItemDialog = ToDoItemInputSingleton.getSingleton();
+        editItemDialog.init(app.getGUI().getWindow());
+        editItemDialog.getCategoryInputNode().setText(editItem.getCategory());
+        editItemDialog.getDescriptioInputNode().setText(editItem.getDescription());
+        editItemDialog.getInitialDate().setValue(editItem.getStartDate());
+        editItemDialog.getEndDate().setValue(editItem.getEndDate());
+        editItemDialog.show("Edit Item");
+        if(editItemDialog.getOkClicked())
+        dataManager.getItems().set(table.getSelectionModel().getSelectedIndex(), editItemDialog.getItem());
         
     }
     

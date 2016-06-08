@@ -33,7 +33,6 @@ import static saf.settings.AppPropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import static saf.settings.AppPropertyType.SAVE_UNSAVED_WORK_TITLE;
 import static saf.settings.AppPropertyType.SAVE_WORK_TITLE;
 import static saf.settings.AppStartupConstants.PATH_WORK;
-import tdlm.data.DataManager;
 import tdlm.gui.Workspace;
 
 
@@ -90,6 +89,16 @@ public class AppFileController {
     public void handleNewRequest() {
 	AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	PropertiesManager props = PropertiesManager.getPropertiesManager();
+          //check to see if work directory exists, if not make it
+            Path path = Paths.get("./work/");
+            if(!Files.exists(path)){
+            try {
+                Files.createDirectory(path);
+            } catch (IOException ex) {
+                Logger.getLogger(AppFileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+            
         try {
             // WE MAY HAVE TO SAVE CURRENT WORK
             boolean continueToMakeNew = true;
@@ -165,19 +174,10 @@ public class AppFileController {
     public void handleSaveRequest() {
 	// WE'LL NEED THIS TO GET CUSTOM STUFF
 	PropertiesManager props = PropertiesManager.getPropertiesManager();
-         //check to see if work directory exists, if not make it
-            Path path = Paths.get("./work/");
-            if(!Files.exists(path)){
-            try {
-                Files.createDirectory(path);
-            } catch (IOException ex) {
-                Logger.getLogger(AppFileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }
-            
-            //Set name and owner
-            Workspace workspace = (Workspace)app.getWorkspaceComponent();
-            workspace.setNameAndOwner();
+      
+        //Set name and owner
+        Workspace workspace = (Workspace)app.getWorkspaceComponent();
+        workspace.setNameAndOwner();
             
         try {
 	    // MAYBE WE ALREADY KNOW THE FILE
@@ -325,7 +325,7 @@ public class AppFileController {
 	
         // AND NOW ASK THE USER FOR THE FILE TO OPEN
         FileChooser fc = new FileChooser();
-        //fc.setInitialDirectory(new File(PATH_WORK));
+        fc.setInitialDirectory(new File(PATH_WORK));
 	fc.setTitle(props.getProperty(LOAD_WORK_TITLE));
         File selectedFile;
         selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
