@@ -1,5 +1,7 @@
 package tdlm.gui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.logging.Level;
@@ -75,10 +77,10 @@ public class Workspace extends AppWorkspaceComponent {
     HBox nameAndOwnerBox;
     HBox nameBox;
     Label nameLabel;
-    TextField nameTextField;
+    JFXTextField nameTextField;
     HBox ownerBox;
     Label ownerLabel;
-    TextField ownerTextField;
+    JFXTextField ownerTextField;
 
      // THIS REGION IS FOR MANAGING TODO ITEMS
     VBox itemsBox;
@@ -152,17 +154,18 @@ public class Workspace extends AppWorkspaceComponent {
         nameBox = new HBox();
         nameLabel = new Label();
         nameLabel.setText(props.getProperty(PropertyType.NAME_PROMPT));
-        nameTextField = new TextField();
+        nameTextField = new JFXTextField();
         nameBox.getChildren().addAll(nameLabel, nameTextField);
 
         // THIS JUST THE OWNER
         ownerBox = new HBox();
         ownerLabel = new Label(props.getProperty(PropertyType.OWNER_PROMPT));
-        ownerTextField = new TextField();
+        ownerTextField = new JFXTextField();
         ownerBox.getChildren().addAll(ownerLabel, ownerTextField);
         
         // ARRANGE THE CONTENTS OF BOTH ON A SINGLE LINE
         nameAndOwnerBox.getChildren().addAll(nameBox, ownerBox);
+        nameAndOwnerBox.setSpacing(10);
         
         // NOW ORGANIZE THE CONTENTS OF detailsBox
         detailsBox.getChildren().add(detailsLabel);
@@ -338,7 +341,9 @@ public class Workspace extends AppWorkspaceComponent {
     @Override
     public void reloadWorkspace() {
 	DataManager dataManager = (DataManager)app.getDataComponent();
-
+        this.getItemsTable().setItems(dataManager.getItems()); 
+        System.out.print(dataManager.getOwner()+"KSBFJ");
+        ownerTextField.setText(dataManager.getOwner());
     }
 
     public void setNameAndOwner() {

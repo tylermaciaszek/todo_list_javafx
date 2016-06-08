@@ -56,6 +56,22 @@
 	<property name="LOAD_WORK_TITLE"		value="Select work file to load"></property>
 	<property name="WORK_FILE_EXT"			value="tdl"></property>
 	<property name="WORK_FILE_EXT_DESC"		value="To Do List Maker Files"></property>
+        
+        <!-- ToDoItem Singleton -->
+        <property name="CATEGORY_LABEL"		value="Category"></property>
+        <property name="DESCRIPTION_LABEL"	value="Description"></property>
+        <property name="COMPLETE_LABEL"		value="Completed"></property>       
+        <property name="START_DATE_LABEL"	value="Start Date"></property>
+        <property name="END_DATE_LABEL"		value="End Date"></property>
+        <property name="SUBMIT_BUTTON"          value="SUBMIT"></property>
+        <property name="CANCEL_BUTTON"          value="CANCEL"></property>
+        
+        <property name="ADD_NEW_ITEM"          value="Add New Item"></property>
+        <property name="EDIT_ITEM"          value="Edit Item"></property>
+        
+
+
+
     </property_list>
     <property_options_list>
     </property_options_list>

@@ -14,7 +14,7 @@ public enum AppPropertyType {
     /**
      *
      */
-            APP_TITLE,
+    APP_TITLE,
 
     /**
      *
@@ -195,9 +195,12 @@ public enum AppPropertyType {
      *
      */
     WORK_FILE_EXT_DESC,
+   
 
     /**
      *
      */
     PROPERTIES_
+    
+    
 }

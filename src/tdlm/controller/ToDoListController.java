@@ -16,10 +16,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
+import properties_manager.PropertiesManager;
 import tdlm.data.DataManager;
 import tdlm.gui.Workspace;
 import saf.AppTemplate;
+import saf.components.AppFileComponent;
+import saf.controller.AppFileController;
 import saf.ui.AppMessageDialogSingleton;
+import tdlm.PropertyType;
 import tdlm.data.ToDoItem;
 import tdlm.data.DataManager;
 import tdlm.gui.ToDoItemInputSingleton;
@@ -32,6 +36,8 @@ import tdlm.gui.ToDoItemInputSingleton;
  */
 public class ToDoListController {
     AppTemplate app;
+    PropertiesManager props = PropertiesManager.getPropertiesManager();
+
     
     public ToDoListController(AppTemplate initApp) {
 	app = initApp;
@@ -43,12 +49,14 @@ public class ToDoListController {
 	workspace.reloadWorkspace(); 
         ToDoItemInputSingleton dialogForm = ToDoItemInputSingleton.getSingleton();
         dialogForm.init(app.getGUI().getWindow());
-	dialogForm.show("Add New Item");
+	dialogForm.show(props.getProperty(PropertyType.ADD_NEW_ITEM));
         DataManager dataManager = (DataManager) app.getDataComponent();
         if(dialogForm.getOkClicked()){
         ToDoItem data = dialogForm.getItem();
         dataManager.addItem(data);
         workspace.getItemsTable().setItems(dataManager.getItems());
+        AppFileController fileController = new AppFileController(app);
+        fileController.markAsEdited(app.getGUI());
         }
     }
     
@@ -57,6 +65,8 @@ public class ToDoListController {
 	workspace.reloadWorkspace(); 
         workspace.getItemsTable().getItems().remove(workspace.getItemsTable().getSelectionModel().getSelectedIndex());
         buttonDisable();
+        AppFileController fileController = new AppFileController(app);
+        fileController.markAsEdited(app.getGUI());
     }
     
     public void processMoveUpItem() {
@@ -70,6 +80,8 @@ public class ToDoListController {
         workspace.getItemsTable().getItems().add(selectedIndex-1, selectedItem);
         workspace.getItemsTable().getItems().add(selectedIndex, oldItem);
         buttonDisable();
+        AppFileController fileController = new AppFileController(app);
+        fileController.markAsEdited(app.getGUI());
     }
     
     public void processMoveDownItem() {
@@ -84,6 +96,8 @@ public class ToDoListController {
         workspace.getItemsTable().getItems().add(selectedIndex, oldItem); 
         workspace.getItemsTable().getItems().add(newIndex, selectedItem);
         buttonDisable();
+        AppFileController fileController = new AppFileController(app);
+        fileController.markAsEdited(app.getGUI());
     }
     
     public void processEditItem() {
@@ -91,11 +105,6 @@ public class ToDoListController {
 	workspace.reloadWorkspace(); 
         TableView table = workspace.getItemsTable();
         ToDoItem editItem = (ToDoItem) table.getSelectionModel().getSelectedItem();
-        
-        
-       
-
-        
         DataManager dataManager = (DataManager) app.getDataComponent();
         ToDoItemInputSingleton editItemDialog = ToDoItemInputSingleton.getSingleton();
         editItemDialog.init(app.getGUI().getWindow());
@@ -103,10 +112,13 @@ public class ToDoListController {
         editItemDialog.getDescriptioInputNode().setText(editItem.getDescription());
         editItemDialog.getInitialDate().setValue(editItem.getStartDate());
         editItemDialog.getEndDate().setValue(editItem.getEndDate());
-        editItemDialog.show("Edit Item");
-        if(editItemDialog.getOkClicked())
+        editItemDialog.getChecked().setSelected(editItem.getCompleted());
+        editItemDialog.show(props.getProperty(PropertyType.EDIT_ITEM));
+        if(editItemDialog.getOkClicked()){
         dataManager.getItems().set(table.getSelectionModel().getSelectedIndex(), editItemDialog.getItem());
-        
+        AppFileController fileController = new AppFileController(app);
+        fileController.markAsEdited(app.getGUI());
+        }
     }
     
     public void buttonDisable(){

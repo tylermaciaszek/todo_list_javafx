@@ -1,5 +1,10 @@
 package tdlm.gui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXTextField;
+import java.net.URL;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -7,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -14,8 +20,13 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
+import properties_manager.PropertiesManager;
+import static saf.settings.AppPropertyType.APP_CSS;
+import static saf.settings.AppPropertyType.APP_PATH_CSS;
+import tdlm.PropertyType;
 import tdlm.controller.ToDoListController;
 import tdlm.data.ToDoItem;
+
 
 
 /**
@@ -26,7 +37,7 @@ import tdlm.data.ToDoItem;
  * 
  * @version 1.0
  */
-public class ToDoItemInputSingleton extends Stage {
+public class ToDoItemInputSingleton extends Stage {            
     // HERE'S THE SINGLETON OBJECT
     static ToDoItemInputSingleton singleton = null;
     
@@ -37,19 +48,19 @@ public class ToDoItemInputSingleton extends Stage {
     Label completeLabel;
     Label initialDateLabel;
     Label endDateLabel;
-    TextField categoryInput;
-    TextField descriptionInput;
+    JFXTextField categoryInput;
+    JFXTextField descriptionInput;
     DatePicker initialDate;
     DatePicker endDate;
-    Button submit;
-    Button cancel;
-    RadioButton rbYes;
-    RadioButton rbNo;
-    HBox buttonHolder;
+    //Button submit;
+    JFXButton cancel;
+    JFXCheckBox completed;
+    
+    JFXButton submit;
     
     //Boolean
     boolean complete; 
-    Boolean okClicked;
+    boolean okClicked;
     
     //Data Component
     ToDoItem data;
@@ -76,6 +87,10 @@ public class ToDoItemInputSingleton extends Stage {
     
     public TextField getDescriptioInputNode(){
         return descriptionInput;
+    }
+    
+    public CheckBox getChecked(){
+        return completed;
     }
     
     /**
@@ -107,13 +122,15 @@ public class ToDoItemInputSingleton extends Stage {
         initModality(Modality.WINDOW_MODAL);
         initOwner(owner);
         
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
         
         // LABEL TO DISPLAY THE CUSTOM MESSAGE
-        category = new Label("Category");
-        description = new Label("Description");
-        completeLabel = new Label("Completed");
-        initialDateLabel = new Label("Start Date");
-        endDateLabel = new Label("End Date");
+        category = new Label(props.getProperty(PropertyType.CATEGORY_LABEL));
+        description = new Label(props.getProperty(PropertyType.DESCRIPTION_LABEL));
+        completeLabel = new Label(props.getProperty(PropertyType.COMPLETE_LABEL));
+        initialDateLabel = new Label(props.getProperty(PropertyType.START_DATE_LABEL));
+        endDateLabel = new Label(props.getProperty(PropertyType.END_DATE_LABEL));
 
 
         //Date Pickers
@@ -121,22 +138,22 @@ public class ToDoItemInputSingleton extends Stage {
         endDate = new DatePicker();
         
         //Textfields
-        categoryInput = new TextField();
-        descriptionInput = new TextField();
+        categoryInput = new JFXTextField();
+        descriptionInput = new JFXTextField();
         
         //Button
-        submit = new Button("Submit");
-        cancel = new Button("Cancel");
+        submit = new JFXButton(props.getProperty(PropertyType.SUBMIT_BUTTON));
+        cancel = new JFXButton(props.getProperty(PropertyType.CANCEL_BUTTON));
         
-        //RadioButtons
-        rbYes = new RadioButton("Yes");
-        rbNo = new RadioButton("No");
-        ToggleGroup completedButtons;
-        completedButtons = new ToggleGroup();
-        buttonHolder = new HBox(5);
-        rbYes.setToggleGroup(completedButtons);
-        rbNo.setToggleGroup(completedButtons);
-        buttonHolder.getChildren().addAll(rbYes, rbNo);
+        okClicked = false;
+        
+        //Check Box
+        completed = new JFXCheckBox();
+        
+        //TESTING
+        VBox test = new VBox();
+        test.getChildren().add(initialDate);
+        
         
 
         // WE'LL PUT EVERYTHING HERE
@@ -146,11 +163,11 @@ public class ToDoItemInputSingleton extends Stage {
         dialogForm.add(description, 0, 1);
         dialogForm.add(descriptionInput, 1, 1);
         dialogForm.add(initialDateLabel, 0, 2);
-        dialogForm.add(initialDate, 1, 2);
+        dialogForm.add(test, 1, 2);
         dialogForm.add(endDateLabel, 0, 3);
         dialogForm.add(endDate, 1, 3);
         dialogForm.add(completeLabel, 0, 4);
-        dialogForm.add(buttonHolder, 1, 4);
+        dialogForm.add(completed, 1, 4);
         dialogForm.add(submit, 0, 5);
         dialogForm.add(cancel, 1, 5);
         
@@ -179,7 +196,7 @@ public class ToDoItemInputSingleton extends Stage {
             data.setDescription(descriptionInput.getText());
             data.setStartDate(initialDate.getValue());
             data.setEndDate(endDate.getValue());
-            complete = completedButtons.getSelectedToggle().equals(rbYes);
+            complete = completed.isSelected();
             data.setCompleted(complete);
             this.hide();
         });
