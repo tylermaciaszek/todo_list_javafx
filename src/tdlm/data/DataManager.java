@@ -48,6 +48,10 @@ public class DataManager implements AppDataComponent {
      */
     public DataManager(AppTemplate initApp) throws Exception {
 	// KEEP THE APP FOR LATER
+        name = new SimpleStringProperty();
+        name.set("");
+        owner = new SimpleStringProperty();
+        owner.set("");
 	app = initApp;
     }
     
@@ -55,6 +59,13 @@ public class DataManager implements AppDataComponent {
 	return items;
     }
     
+    public StringProperty getNameProp(){
+        return name;
+    }
+    
+    public StringProperty getOwnerProp(){
+        return owner;
+    }
     public String getName() {
         return name.get();
     }

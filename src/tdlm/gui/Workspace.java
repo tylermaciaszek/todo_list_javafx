@@ -137,6 +137,8 @@ public class Workspace extends AppWorkspaceComponent {
     
     private void layoutGUI() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
+        DataManager dataManager = (DataManager)app.getDataComponent();
+
         
 	// FIRST THE LABEL AT THE TOP
         headingLabel = new Label();
@@ -155,12 +157,14 @@ public class Workspace extends AppWorkspaceComponent {
         nameLabel = new Label();
         nameLabel.setText(props.getProperty(PropertyType.NAME_PROMPT));
         nameTextField = new JFXTextField();
+        nameTextField.textProperty().bindBidirectional(dataManager.getNameProp());
         nameBox.getChildren().addAll(nameLabel, nameTextField);
 
         // THIS JUST THE OWNER
         ownerBox = new HBox();
         ownerLabel = new Label(props.getProperty(PropertyType.OWNER_PROMPT));
         ownerTextField = new JFXTextField();
+        ownerTextField.textProperty().bindBidirectional(dataManager.getOwnerProp());
         ownerBox.getChildren().addAll(ownerLabel, ownerTextField);
         
         // ARRANGE THE CONTENTS OF BOTH ON A SINGLE LINE
@@ -190,6 +194,12 @@ public class Workspace extends AppWorkspaceComponent {
         itemStartDateColumn = new TableColumn(props.getProperty(PropertyType.START_DATE_COLUMN_HEADING));
         itemEndDateColumn = new TableColumn(props.getProperty(PropertyType.END_DATE_COLUMN_HEADING));
         itemCompletedColumn = new TableColumn(props.getProperty(PropertyType.COMPLETED_COLUMN_HEADING));
+        itemCategoryColumn.prefWidthProperty().bind(itemsTable.widthProperty().multiply(0.3));
+        itemDescriptionColumn.prefWidthProperty().bind(itemsTable.widthProperty().multiply(0.3));
+        itemStartDateColumn.prefWidthProperty().bind(itemsTable.widthProperty().multiply(0.15));
+        itemEndDateColumn.prefWidthProperty().bind(itemsTable.widthProperty().multiply(0.15));
+        itemCompletedColumn.prefWidthProperty().bind(itemsTable.widthProperty().multiply(0.1));
+        
         
         // AND LINK THE COLUMNS TO THE DATA
         itemCategoryColumn.setCellValueFactory(new PropertyValueFactory<String, String>("category"));
@@ -202,7 +212,6 @@ public class Workspace extends AppWorkspaceComponent {
         itemsTable.getColumns().add(itemStartDateColumn);
         itemsTable.getColumns().add(itemEndDateColumn);
         itemsTable.getColumns().add(itemCompletedColumn);
-        DataManager dataManager = (DataManager)app.getDataComponent();
         itemsTable.setItems(dataManager.getItems());
        
         //Items Table Listener
@@ -342,8 +351,6 @@ public class Workspace extends AppWorkspaceComponent {
     public void reloadWorkspace() {
 	DataManager dataManager = (DataManager)app.getDataComponent();
         this.getItemsTable().setItems(dataManager.getItems()); 
-        System.out.print(dataManager.getOwner()+"KSBFJ");
-        ownerTextField.setText(dataManager.getOwner());
     }
 
     public void setNameAndOwner() {

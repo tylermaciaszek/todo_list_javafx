@@ -64,7 +64,7 @@ public class ToDoListController {
         Workspace workspace = (Workspace)app.getWorkspaceComponent();
 	workspace.reloadWorkspace(); 
         workspace.getItemsTable().getItems().remove(workspace.getItemsTable().getSelectionModel().getSelectedIndex());
-        buttonDisable();
+        //buttonDisable();
         AppFileController fileController = new AppFileController(app);
         fileController.markAsEdited(app.getGUI());
     }
@@ -79,7 +79,7 @@ public class ToDoListController {
         workspace.getItemsTable().getItems().remove(selectedIndex-1);
         workspace.getItemsTable().getItems().add(selectedIndex-1, selectedItem);
         workspace.getItemsTable().getItems().add(selectedIndex, oldItem);
-        buttonDisable();
+        buttonDisable(selectedIndex-1);
         AppFileController fileController = new AppFileController(app);
         fileController.markAsEdited(app.getGUI());
     }
@@ -95,7 +95,7 @@ public class ToDoListController {
         workspace.getItemsTable().getItems().remove(selectedItem);
         workspace.getItemsTable().getItems().add(selectedIndex, oldItem); 
         workspace.getItemsTable().getItems().add(newIndex, selectedItem);
-        buttonDisable();
+        buttonDisable(newIndex);
         AppFileController fileController = new AppFileController(app);
         fileController.markAsEdited(app.getGUI());
     }
@@ -121,12 +121,14 @@ public class ToDoListController {
         }
     }
     
-    public void buttonDisable(){
+    public void buttonDisable(int selectInt){
         Workspace workspace = (Workspace)app.getWorkspaceComponent();
 	workspace.reloadWorkspace(); 
         workspace.getItemsTable().getSelectionModel().clearSelection();
+        workspace.getItemsTable().getSelectionModel().select(selectInt);
+        if(selectInt == 0)
         workspace.getMoveDownItemButton().setDisable(true);
+        else if(selectInt == workspace.getItemsTable().getItems().size())
         workspace.getMoveUpItemButton().setDisable(true);
-        workspace.getRemoveItemButton().setDisable(true);
     } 
 }

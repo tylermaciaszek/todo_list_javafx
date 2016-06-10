@@ -7,11 +7,6 @@ import saf.components.AppFileComponent;
 import saf.components.AppDataComponent;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import properties_manager.PropertiesManager;
@@ -33,8 +28,6 @@ import static saf.settings.AppPropertyType.SAVE_UNSAVED_WORK_MESSAGE;
 import static saf.settings.AppPropertyType.SAVE_UNSAVED_WORK_TITLE;
 import static saf.settings.AppPropertyType.SAVE_WORK_TITLE;
 import static saf.settings.AppStartupConstants.PATH_WORK;
-import tdlm.gui.Workspace;
-
 
 /**
  * This class provides the event programmed responses for the file controls
@@ -89,16 +82,6 @@ public class AppFileController {
     public void handleNewRequest() {
 	AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
 	PropertiesManager props = PropertiesManager.getPropertiesManager();
-          //check to see if work directory exists, if not make it
-            Path path = Paths.get("./work/");
-            if(!Files.exists(path)){
-            try {
-                Files.createDirectory(path);
-            } catch (IOException ex) {
-                Logger.getLogger(AppFileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }
-            
         try {
             // WE MAY HAVE TO SAVE CURRENT WORK
             boolean continueToMakeNew = true;
@@ -174,17 +157,11 @@ public class AppFileController {
     public void handleSaveRequest() {
 	// WE'LL NEED THIS TO GET CUSTOM STUFF
 	PropertiesManager props = PropertiesManager.getPropertiesManager();
-      
-        //Set name and owner
-        Workspace workspace = (Workspace)app.getWorkspaceComponent();
-        workspace.setNameAndOwner();
-            
         try {
 	    // MAYBE WE ALREADY KNOW THE FILE
 	    if (currentWorkFile != null) {
 		saveWork(currentWorkFile);
 	    }
-            
 	    // OTHERWISE WE NEED TO PROMPT THE USER
 	    else {
 		// PROMPT THE USER FOR A FILE NAME
@@ -327,8 +304,7 @@ public class AppFileController {
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File(PATH_WORK));
 	fc.setTitle(props.getProperty(LOAD_WORK_TITLE));
-        File selectedFile;
-        selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
+        File selectedFile = fc.showOpenDialog(app.getGUI().getWindow());
 
         // ONLY OPEN A NEW FILE IF THE USER SAYS OK
         if (selectedFile != null) {

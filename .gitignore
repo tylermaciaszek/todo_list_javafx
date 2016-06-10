@@ -1,0 +1,9 @@
+/build/
+/PropertiesManager/dist/
+/PropertiesManager/build/
+/SimpleAppFramework/build/
+/SimpleAppFramework/dist/
+/XMLUtilities/build/
+/XMLUtilities/dist/
+/SimpleAppFramework/nbproject/private/
+/dist/

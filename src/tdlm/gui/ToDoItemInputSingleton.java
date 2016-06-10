@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.time.LocalDate;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -136,6 +137,8 @@ public class ToDoItemInputSingleton extends Stage {
         //Date Pickers
         initialDate = new DatePicker();
         endDate = new DatePicker();
+        initialDate.setValue(LocalDate.now());
+        endDate.setValue(LocalDate.now());
         
         //Textfields
         categoryInput = new JFXTextField();
@@ -143,7 +146,10 @@ public class ToDoItemInputSingleton extends Stage {
         
         //Button
         submit = new JFXButton(props.getProperty(PropertyType.SUBMIT_BUTTON));
+        submit.getStyleClass().add("button-raised");
         cancel = new JFXButton(props.getProperty(PropertyType.CANCEL_BUTTON));
+        cancel.getStyleClass().add("button-raised");
+
         
         okClicked = false;
         
@@ -172,15 +178,17 @@ public class ToDoItemInputSingleton extends Stage {
         dialogForm.add(cancel, 1, 5);
         
         //Style
-        dialogForm.setHgap(20);
+        dialogForm.setHgap(12);
         dialogForm.setVgap(20);
         dialogForm.setPadding(new Insets(15, 15, 15, 15));
-        this.setWidth(320);
-        this.setHeight(311);
+        this.setWidth(330);
+        this.setHeight(330);
            
         // AND PUT IT IN THE WINDOW
         Scene formScene = new Scene(dialogForm);
         this.setScene(formScene);
+        
+        formScene.getStylesheets().add(this.getClass().getClassLoader().getResource("tdlm/css/tdlm_style.css").toExternalForm());
         
         //Make cancel do something
         cancel.setOnAction(e ->{

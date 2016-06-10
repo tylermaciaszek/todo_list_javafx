@@ -138,6 +138,8 @@ public class FileManager implements AppFileComponent {
 	    JsonObject jsonItem = jsonItemArray.getJsonObject(i);
 	    ToDoItem item = loadItem(jsonItem);
 	    dataManager.addItem(item);
+            dataManager.getNameProp().set(name);
+            dataManager.getOwnerProp().set(owner);
 	}
     }
     
