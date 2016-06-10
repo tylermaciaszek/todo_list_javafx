@@ -139,6 +139,7 @@ public class ToDoItemInputSingleton extends Stage {
         endDate = new DatePicker();
         initialDate.setValue(LocalDate.now());
         endDate.setValue(LocalDate.now());
+        initialDate.getStyleClass().add("date-picker");
         
         //Textfields
         categoryInput = new JFXTextField();
@@ -178,7 +179,7 @@ public class ToDoItemInputSingleton extends Stage {
         dialogForm.add(cancel, 1, 5);
         
         //Style
-        dialogForm.setHgap(12);
+        dialogForm.setHgap(5);
         dialogForm.setVgap(20);
         dialogForm.setPadding(new Insets(15, 15, 15, 15));
         this.setWidth(330);
@@ -189,6 +190,12 @@ public class ToDoItemInputSingleton extends Stage {
         this.setScene(formScene);
         
         formScene.getStylesheets().add(this.getClass().getClassLoader().getResource("tdlm/css/tdlm_style.css").toExternalForm());
+        
+        description.getStyleClass().add("dialog_label");
+        category.getStyleClass().add("dialog_label");
+        initialDateLabel.getStyleClass().add("dialog_label");
+        endDateLabel.getStyleClass().add("dialog_label");
+        completeLabel.getStyleClass().add("dialog_label");
         
         //Make cancel do something
         cancel.setOnAction(e ->{

@@ -313,6 +313,7 @@ public class AppFileController {
 		AppFileComponent fileManager = app.getFileComponent();
                 fileManager.loadData(dataManager, selectedFile.getAbsolutePath());
                 app.getWorkspaceComponent().reloadWorkspace();
+                currentWorkFile = selectedFile;
 
 		// MAKE SURE THE WORKSPACE IS ACTIVATED
 		app.getWorkspaceComponent().activateWorkspace(app.getGUI().getAppPane());

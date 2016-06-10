@@ -10,6 +10,26 @@
 */
 
 
+
+.table-view .filler, .tree-table-view .filler, .table-view .column-header,
+	.tree-table-view .column-header {
+	-fx-border-width: 0 0 2 0;
+}
+
+.table-view .column-header-background, .tree-table-view .column-header-background
+	{
+	-fx-background-color: transparent;
+}
+
+.table-row-cell, .tree-table-row-cell {
+	-fx-cell-size: 40px;
+}
+
+.table-cell {
+	-fx-border-color: transparent;
+	-fx-border-width: 1;
+}
+
 .bordered_pane {
     -fx-background-color: #E3F2FD;
     -fx-background-radius: 5.0;
@@ -17,6 +37,21 @@
     -fx-spacing: 10;
     -fx-border-width: 1px;
     -fx-border-color: #2196F3;
+}
+.date-picker .arrow-button {
+	-fx-background-color: transparent;
+}
+
+.date-picker .arrow-button .arrow {
+	-fx-background-insets: -4;
+}
+
+.date-picker .date-picker-display-node {
+	-fx-border-width: 0;
+}
+.dialog_label{
+    
+    -fx-font-size: 11pt;
 }
 
 .heading_label {
@@ -36,7 +71,7 @@
 
 .button-raised{
     -fx-padding: 0.6em;
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-button-type: RAISED;
     -fx-background-color: rgb(77,102,204);
     -fx-pref-width: 150;

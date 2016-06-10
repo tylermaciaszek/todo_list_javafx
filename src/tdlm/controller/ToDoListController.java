@@ -64,7 +64,7 @@ public class ToDoListController {
         Workspace workspace = (Workspace)app.getWorkspaceComponent();
 	workspace.reloadWorkspace(); 
         workspace.getItemsTable().getItems().remove(workspace.getItemsTable().getSelectionModel().getSelectedIndex());
-        //buttonDisable();
+        buttonDisable();
         AppFileController fileController = new AppFileController(app);
         fileController.markAsEdited(app.getGUI());
     }
@@ -118,17 +118,31 @@ public class ToDoListController {
         dataManager.getItems().set(table.getSelectionModel().getSelectedIndex(), editItemDialog.getItem());
         AppFileController fileController = new AppFileController(app);
         fileController.markAsEdited(app.getGUI());
+        buttonDisable();
+        workspace.getItemsTable().getSelectionModel().select(editItemDialog.getItem());
         }
+    }
+    
+    public void buttonDisable(){
+        Workspace workspace = (Workspace)app.getWorkspaceComponent();
+	workspace.reloadWorkspace(); 
+        if(workspace.getItemsTable().getItems().isEmpty())
+        workspace.getRemoveItemButton().setDisable(true);
+        if(workspace.getItemsTable().getSelectionModel().getFocusedIndex() == 0)
+        workspace.getMoveUpItemButton().setDisable(true);
+        if(workspace.getItemsTable().getSelectionModel().getFocusedIndex() == workspace.getItemsTable().getItems().size())
+        workspace.getMoveDownItemButton().setDisable(true);
     }
     
     public void buttonDisable(int selectInt){
         Workspace workspace = (Workspace)app.getWorkspaceComponent();
 	workspace.reloadWorkspace(); 
-        workspace.getItemsTable().getSelectionModel().clearSelection();
         workspace.getItemsTable().getSelectionModel().select(selectInt);
+        if(workspace.getItemsTable().getItems().isEmpty())
+        workspace.getRemoveItemButton().setDisable(true);
         if(selectInt == 0)
-        workspace.getMoveDownItemButton().setDisable(true);
-        else if(selectInt == workspace.getItemsTable().getItems().size())
         workspace.getMoveUpItemButton().setDisable(true);
+        if(selectInt == workspace.getItemsTable().getItems().size())
+        workspace.getMoveDownItemButton().setDisable(true);
     } 
 }

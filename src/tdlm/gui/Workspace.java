@@ -35,6 +35,7 @@ import properties_manager.PropertiesManager;
 import saf.ui.AppGUI;
 import saf.AppTemplate;
 import saf.components.AppWorkspaceComponent;
+import saf.controller.AppFileController;
 import static saf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static saf.settings.AppStartupConstants.PATH_IMAGES;
 import tdlm.PropertyType;
@@ -138,7 +139,7 @@ public class Workspace extends AppWorkspaceComponent {
     private void layoutGUI() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         DataManager dataManager = (DataManager)app.getDataComponent();
-
+        
         
 	// FIRST THE LABEL AT THE TOP
         headingLabel = new Label();
@@ -159,6 +160,13 @@ public class Workspace extends AppWorkspaceComponent {
         nameTextField = new JFXTextField();
         nameTextField.textProperty().bindBidirectional(dataManager.getNameProp());
         nameBox.getChildren().addAll(nameLabel, nameTextField);
+        nameTextField.textProperty().addListener((obs, oldSelection, newSelection) ->{
+            if(newSelection != null){
+                AppFileController fileController = new AppFileController(app);
+                fileController.markAsEdited(app.getGUI());
+            }
+            
+        });
 
         // THIS JUST THE OWNER
         ownerBox = new HBox();
@@ -213,6 +221,8 @@ public class Workspace extends AppWorkspaceComponent {
         itemsTable.getColumns().add(itemEndDateColumn);
         itemsTable.getColumns().add(itemCompletedColumn);
         itemsTable.setItems(dataManager.getItems());
+        itemsTable.getStyleClass().add("table-view");
+
        
         //Items Table Listener
         itemsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->{
@@ -236,6 +246,8 @@ public class Workspace extends AppWorkspaceComponent {
         workspace.getChildren().add(headingLabel);
         workspace.getChildren().add(detailsBox);
         workspace.getChildren().add(itemsBox);
+        
+       
        
         
         
@@ -335,6 +347,7 @@ public class Workspace extends AppWorkspaceComponent {
         ownerLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         itemsBox.getStyleClass().add(CLASS_BORDERED_PANE);
         itemsLabel.getStyleClass().add(CLASS_SUBHEADING_LABEL);
+        
     }
 
     public TableView<ToDoItem> getItemsTable() {
